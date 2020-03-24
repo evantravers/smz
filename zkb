@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 # Files that refer to this file by ID. (Backlinks)
 
 if [ -z "$1" ]; then

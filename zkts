@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ -z $1 ]; then
   echo "Enter a tag to search for."
