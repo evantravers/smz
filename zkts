@@ -1,8 +1,15 @@
 #!/bin/bash
 
+ZKPATH="${ZKPATH:-~/Dropbox/wiki/archive}"
+
+if [ ! -d "$ZKPATH" ]; then
+  echo "Zettelkasten path \"$ZKPATH\" does not exist."
+  exit 1
+fi
+
 if [ -z "$1" ]; then
   echo "Enter a tag to search for."
   exit 1
 fi
 
-rg "$(printf "^tags: .*#%s" "$1")" ~/Dropbox/wiki/archive --files-with-matches
+rg "$(printf "^tags: .*#%s" "$1")" "$ZKPATH" --files-with-matches

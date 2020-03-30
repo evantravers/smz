@@ -1,8 +1,15 @@
 #!/bin/bash
 
+ZKPATH="${ZKPATH:-~/Dropbox/wiki/archive}"
+
+if [ ! -d "$ZKPATH" ]; then
+  echo "Zettelkasten path \"$ZKPATH\" does not exist."
+  exit 1
+fi
+
 if [ -z "$1" ]; then
   echo "You need a search term."
   exit 1
 fi
 
-rg "$1" ~/Dropbox/wiki/archive
+rg "$1" "$ZKPATH"
