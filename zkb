@@ -8,10 +8,13 @@ if [ ! -d "$ZKPATH" ]; then
   exit 1
 fi
 
+
 if [ -z "$1" ]; then
   echo "You have to provide a filename"
   exit 1
 fi
 
+cmd=$(command -v rg || command -v ag || command -v grep)
+
 search_pattern=$(grep -o '[0-9]\+' <<< "$1")
-rg "$search_pattern" "$ZKPATH" --files-with-matches | grep -v "$1"
+$cmd "$search_pattern" "$ZKPATH" --files-with-matches | grep -v "$1"
