@@ -1,5 +1,3 @@
 #!/bin/bash
 
-if [ -z "$1" ]; then
-  date +"%Y%m%d%H%M%S"
-fi
+date +"%Y%m%d%H%M%S"
