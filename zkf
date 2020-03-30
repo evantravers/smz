@@ -3,5 +3,5 @@
 if [ -z "$1" ]; then
   echo 'You have to provide something to search for'
 else
-  fd $1 ~/Dropbox/wiki/archive
+  fd "$1" ~/Dropbox/wiki/archive
 fi
