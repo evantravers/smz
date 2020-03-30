@@ -3,7 +3,8 @@
 
 if [ -z "$1" ]; then
   echo "You have to provide a filename"
-else
-  search_pattern=$(grep -o '[0-9]\+' <<< "$1")
-  rg "$search_pattern" ~/Dropbox/wiki/archive --files-with-matches | grep -v "$1"
+  exit 1
 fi
+
+search_pattern=$(grep -o '[0-9]\+' <<< "$1")
+rg "$search_pattern" ~/Dropbox/wiki/archive --files-with-matches | grep -v "$1"

@@ -2,6 +2,7 @@
 
 if [ -z "$1" ]; then
   echo 'You have to provide something to search for'
-else
-  fd "$1" ~/Dropbox/wiki/archive
+  exit 1
 fi
+
+fd "$1" ~/Dropbox/wiki/archive

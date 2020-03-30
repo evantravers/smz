@@ -2,6 +2,7 @@
 
 if [ -z "$1" ]; then
   echo "Enter a tag to search for."
-else
-  rg "$(printf "^tags: .*#%s" "$1")" ~/Dropbox/wiki/archive --files-with-matches
+  exit 1
 fi
+
+rg "$(printf "^tags: .*#%s" "$1")" ~/Dropbox/wiki/archive --files-with-matches

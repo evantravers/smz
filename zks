@@ -2,6 +2,7 @@
 
 if [ -z "$1" ]; then
   echo "You need a search term."
-else
-  rg "$1" ~/Dropbox/wiki/archive
+  exit 1
 fi
+
+rg "$1" ~/Dropbox/wiki/archive
