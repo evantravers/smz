@@ -12,18 +12,14 @@ if [ ! -d "$ZKPATH" ]; then
     exit 1
 fi
 
-
 usage(){
     echo "Usage: $app <subcommand> [options]"
     echo ""
     echo "Subcommands:"
-    echo "    b|backlinks TARGET    Find backlinks referencing TARGET"
-    echo "    f|find PATTERN        Find notes with name matching PATTERN"
-    echo "    id                    Generate a Zettelkasten timestamp"
-    echo "    s|search PATTERN      Find notes with content matching PATTERN"
-    echo ""
-    echo "For help with each subcommand run:"
-    echo "$app <subcommand> -h|--help"
+    echo "    b|backlinks TARGET          Find backlinks referencing TARGET"
+    echo "    f|find PATTERN              Find notes with name matching PATTERN"
+    echo "    id                          Generate a Zettelkasten timestamp"
+    echo "    s|search [--tags] PATTERN   Find notes with content matching PATTERN"
     echo ""
 }
 
