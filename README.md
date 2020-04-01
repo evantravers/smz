@@ -1,43 +1,43 @@
-# Simple Markdown Zettelkasten
+# Simple Markdown Zettelkasten: Shell Command
 
-Vim is an editor on top of the shell. If I write a shell script that can allow
-me to search and manipulate my files, then vim integration _should_ be easy.
+This is based on assumptions about the [format of a Simple Markdown
+Zettelkasten](http://evantravers.com/articles/2020/03/13/simple-markdown-zettelkasten/),
+which is itself based on [@ctietze's
+work](https://zettelkasten.de/posts/baseline-zettelkasten-software-reviews/)
 
-I was starting to write this in fish, but I'm going to move it to `sh` for
-compatibility.
+Vim is an editor on top of the shell. Following the unix philosophy as best as
+I can, if I write a shell script that can allow me to search and
+manipulate my files, then vim integration _should_ be easy.
 
-I may prototype in ruby/python, because that's what I'm used to.
+## Configuration
 
-## Generating IDs
+To use `zk`, you are going to need to export `ZKPATH` somewhere in your shell
+to tell it where to look.
+
+## Subcommands
+
+### Generating IDs
+
+`id                          Generate a Zettelkasten timestamp`
 
 Borrowing from ["Add Identity"](https://zettelkasten.de/posts/add-identity/),
 we need a way to generate a unique ID based on the current date.
 
-If you want copy this, you can use this string in an Alfred snippet:
-`{date:YMdhms}`. The strftime format is: `%Y%m%d%H%M%S`.
-
 We are simply using the built-in: `date +"%Y%m%d%H%M%S"`.
 
-## Search
+### Search
 
-- [X] searching for tags `zkts`
-- [X] finding content via full text search `zks`
-- [X] finding a file by search of filename `zkf`
+`s|search [--tags] PATTERN   Find notes with content matching PATTERN"`
 
-`fd` is perfect for this, although `find` is everywhere and adequate.
+### Find
 
-- [X] Files that link to this file
-    - [ ] find files with no links (inbox?)
+`f|find PATTERN              Find notes with name matching PATTERN`
 
-## Other
+### Backlinks
 
-- [ ] note transformation: metadata, file name
-- [ ] configuration:
-    - [ ] notes folder(s)
-    - [ ] tag style?
+`b|backlinks TARGET          Find backlinks referencing TARGET`
 
 ## Requirements
 
 - fd
 - rg
-- multimarkdown
