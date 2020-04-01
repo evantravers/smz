@@ -71,7 +71,7 @@ sub_search(){
     fi
 
     case $1 in
-        "--tags")
+        "--tags" | "-t")
             shift
             search_in_files "^tags: .*$1" "$ZKPATH" --files-with-matches
           ;;
