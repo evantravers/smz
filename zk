@@ -1,0 +1,114 @@
+#!/bin/bash
+
+app="$(basename "$0")"
+
+if [ -z "${ZKPATH}" ]; then
+    echo "Please export ZKPATH to configure your Zettelkasten location."
+    exit 1
+fi
+
+if [ ! -d "$ZKPATH" ]; then
+    echo "Zettelkasten path \"$ZKPATH\" does not exist."
+    exit 1
+fi
+
+
+usage(){
+    echo "Usage: $app <subcommand> [options]"
+    echo ""
+    echo "Subcommands:"
+    echo "    b|backlinks TARGET    Find backlinks referencing TARGET"
+    echo "    f|find PATTERN        Find notes with name matching PATTERN"
+    echo "    id                    Generate a Zettelkasten timestamp"
+    echo "    s|search PATTERN      Find notes with content matching PATTERN"
+    echo ""
+    echo "For help with each subcommand run:"
+    echo "$app <subcommand> -h|--help"
+    echo ""
+}
+
+find_files(){
+    if type fd >/dev/null 2>&1; then
+        fd "$1" "$ZKPATH"
+    else
+        find "$ZKPATH" -iname "$1"
+    fi
+}
+
+search_in_files(){
+    if [ -x "$(command -v rg)" ]; then
+        rg "$1" "$ZKPATH" --files-with-matches
+    elif [ -x "$(command -v ag)" ]; then
+        ag "$1" "$ZKPATH" --files-with-matches
+    else
+        grep "$1" "$ZKPATH" --files-with-matches --recursive
+    fi
+}
+
+sub_backlinks(){
+    if [ -z "$1" ]; then
+        echo "You have to provide a filename"
+        exit 1
+    fi
+
+    search_pattern=$(grep -o '[0-9]\+' <<< "$1")
+    search_in_files "$search_pattern" "$ZKPATH" --files-with-matches | grep -v "$1"
+}
+
+sub_find(){
+    if [ -z "$1" ]; then
+        echo 'You have to provide something to search for'
+        exit 1
+    fi
+
+    find_files "$1"
+}
+
+sub_id(){
+    date +"%Y%m%d%H%M%S"
+}
+
+sub_search(){
+    if [ -z "$1" ]; then
+      echo "You need a search term."
+      exit 1
+    fi
+
+    case $1 in
+        "--tags")
+            shift
+            search_in_files "^tags: .*$1" "$ZKPATH" --files-with-matches
+          ;;
+        *)
+            search_in_files "$1" "$ZKPATH" --files-with-matches
+            ;;
+    esac
+}
+
+subcommand=$1
+case $subcommand in
+    "" | "-h" | "--help")
+        usage
+        ;;
+    b|backlinks)
+        shift
+        sub_backlinks "$@"
+      ;;
+    f|find)
+        shift
+        sub_find "$@"
+      ;;
+    s|search)
+        shift
+        sub_search "$@"
+      ;;
+    id)
+        shift
+        sub_id "$@"
+      ;;
+    *)
+        echo "Error: '$subcommand' is not a known subcommand." >&2
+        echo "       Run '$app --help' for a list of known subcommands." >&2
+        exit 1
+        ;;
+esac
