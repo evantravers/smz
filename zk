@@ -12,6 +12,10 @@ if [ ! -d "$ZKPATH" ]; then
     exit 1
 fi
 
+if [ -x "$(command -v realpath)" ]; then
+  ZKPATH=$(realpath --relative-to="$PWD" "$ZKPATH")
+fi
+
 usage(){
     echo "Usage: $app <subcommand> [options]"
     echo ""
