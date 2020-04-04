@@ -2,13 +2,13 @@
 
 app="$(basename "$0")"
 
-if [ -z "${ZKPATH}" ]; then
-    echo "Please export ZKPATH to configure your Zettelkasten location."
+if [ -z "${SMZPATH}" ]; then
+    echo "Please export SMZPATH to configure your Zettelkasten location."
     exit 1
 fi
 
-if [ ! -d "$ZKPATH" ]; then
-    echo "Zettelkasten path \"$ZKPATH\" does not exist."
+if [ ! -d "$SMZPATH" ]; then
+    echo "Zettelkasten path \"$SMZPATH\" does not exist."
     exit 1
 fi
 
@@ -29,19 +29,19 @@ usage(){
 
 find_files(){
     if type fd >/dev/null 2>&1; then
-        fd "$1" "$ZKPATH"
+        fd "$1" "$SMZPATH"
     else
-        find "$ZKPATH" -iname "$1"
+        find "$SMZPATH" -iname "$1"
     fi
 }
 
 search_in_files(){
     if [ -x "$(command -v rg)" ]; then
-        rg "$1" "$ZKPATH" --files-with-matches
+        rg "$1" "$SMZPATH" --files-with-matches
     elif [ -x "$(command -v ag)" ]; then
-        ag "$1" "$ZKPATH" --files-with-matches
+        ag "$1" "$SMZPATH" --files-with-matches
     else
-        grep "$1" "$ZKPATH" --files-with-matches --recursive
+        grep "$1" "$SMZPATH" --files-with-matches --recursive
     fi
 }
 
@@ -52,7 +52,7 @@ sub_backlinks(){
     fi
 
     search_pattern=$(grep -o '[0-9]\+' <<< "$1")
-    search_in_files "$search_pattern" "$ZKPATH" --files-with-matches | grep -v "$1"
+    search_in_files "$search_pattern" "$SMZPATH" --files-with-matches | grep -v "$1"
 }
 
 sub_find(){
@@ -77,10 +77,10 @@ sub_search(){
     case $1 in
         "--tags" | "-t")
             shift
-            search_in_files "^tags: .*$1" "$ZKPATH" --files-with-matches
+            search_in_files "^tags: .*$1" "$SMZPATH" --files-with-matches
           ;;
         *)
-            search_in_files "$1" "$ZKPATH" --files-with-matches
+            search_in_files "$1" "$SMZPATH" --files-with-matches
             ;;
     esac
 }
