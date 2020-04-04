@@ -11,7 +11,7 @@ manipulate my files, then vim integration _should_ be easy.
 
 ## Configuration
 
-To use `zk`, you are going to need to export `SMZPATH` somewhere in your shell
+To use `smz`, you are going to need to export `SMZPATH` somewhere in your shell
 to tell it where to look.
 
 ## Subcommands
