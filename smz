@@ -21,6 +21,7 @@ usage(){
     echo ""
     echo "Subcommands:"
     echo "    b|backlinks TARGET          Find backlinks referencing TARGET"
+    echo "    o|orphans                   Find files with no backlinks"
     echo "    f|find PATTERN              Find notes with name matching PATTERN"
     echo "    id                          Generate a Zettelkasten timestamp"
     echo "    s|search [--tags] PATTERN   Find notes with content matching PATTERN"
@@ -53,6 +54,15 @@ sub_backlinks(){
 
     search_pattern=$(grep -o '[0-9]\+' <<< "$1")
     search_in_files "$search_pattern" "$SMZPATH" --files-with-matches | grep -v "$1"
+}
+
+sub_orphans(){
+    for zettel in $(ls $SMZPATH)
+    do
+      if [ -z $(smz b $zettel) ]; then
+        echo $zettel
+      fi
+    done
 }
 
 sub_find(){
@@ -93,6 +103,10 @@ case $subcommand in
     b|backlinks)
         shift
         sub_backlinks "$@"
+      ;;
+    o|orphans)
+        shift
+        sub_orphans "$0"
       ;;
     f|find)
         shift
