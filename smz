@@ -57,7 +57,7 @@ sub_backlinks(){
 }
 
 sub_orphans(){
-    for zettel in $(ls $SMZPATH)
+    for zettel in "$SMZPATH"/*
     do
       if [ -z $(smz b $zettel) ]; then
         echo $zettel
