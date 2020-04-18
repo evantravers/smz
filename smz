@@ -13,7 +13,7 @@ if [ ! -d "$SMZPATH" ]; then
 fi
 
 if [ -x "$(command -v realpath)" ]; then
-  ZKPATH=$(realpath --relative-to="$PWD" "$ZKPATH")
+  SMZPATH=$(realpath --relative-to="$PWD" "$SMZPATH")
 fi
 
 usage(){
